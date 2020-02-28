@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.donor, canvas {
+  display: none;
+  position: absolute;
+  top: 5vh;
+  bottom: 5vh;
+  left: 5vw;
+  right: 5vw;
+}
+.container {
+  width: 80vw;
+  height: 60vw;
+/*  background: #eeee99;*/
+  position: relative;
+  margin: 2vw auto;
+}
+.parent {
+  max-width: 1024px;
+  background: #dd88ff;
+  position: absolute;
+}
+.fragment {
+  position: absolute;
+  transition: all .5s ease-in-out;
+}
