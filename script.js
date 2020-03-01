@@ -9,15 +9,24 @@ const ey = []
 
 class Slider {
   constructor() {
+    this.bindMethods()
+    
     this.DOM = {
       fragment: document.querySelectorAll('.fragment'),
       donor: document.querySelectorAll('.donor'),
       parent: document.querySelector('.parent'),
+      button: document.querySelector('button'),
     }
     
+    this.index = 0
     this.init() 
   }
 
+  bindMethods() {
+    ['next']
+    .forEach((fn) => this[fn] = this[fn].bind(this));
+  }
+  
   move() {
       setTimeout(() => {
       this.DOM.fragment.forEach((elem, index) => {
@@ -25,12 +34,12 @@ class Slider {
         elem.style.left = `${ex[index]}px`
         elem.style.opacity = 0
       })
-    }, 2000 )  
+    }, 1000 )  
   }
   
   place() {
     let sx, sy, width, height = 0
-    
+
     this.DOM.fragment.forEach((elem, i) => {
       do {
         sx = rand(0, 16)
@@ -45,7 +54,8 @@ class Slider {
       let ssy = (sy > 4 ) ? ey[i] + rand(0, offset) : ey[i] - rand(0, offset)
       elem.style.top = `${ssy}px`
       elem.style.left = `${ssx}px`
-      this.slice(this.DOM.donor[0], sx, sy, width, height, elem)
+      elem.style.opacity = 1
+      this.slice(this.DOM.donor[this.index], sx, sy, width, height, elem)
     })  
   }
   
@@ -61,8 +71,20 @@ class Slider {
     }
   }
   
+  next() {
+    if (this.index > 7 ) {
+      this.index = 0
+    } else {
+      this.index++
+    }
+    this.slice(this.DOM.donor[this.index], 0, 0, 16, 10, this.DOM.parent)
+    this.place()
+    this.move()
+  }
+  
   init() {
-    this.slice(this.DOM.donor[0], 0, 0, 16, 10, this.DOM.parent)
+    this.DOM.button.addEventListener("click", this.next)
+    this.slice(this.DOM.donor[this.index], 0, 0, 16, 10, this.DOM.parent)
     this.place()
     this.move()
   }
