@@ -3,6 +3,7 @@ function rand(from, to) {
 }
 
 const base = 64
+const offset = 30
 const ex = []
 const ey = []
 
@@ -12,7 +13,6 @@ class Slider {
       fragment: document.querySelectorAll('.fragment'),
       donor: document.querySelectorAll('.donor'),
       parent: document.querySelector('.parent'),
-      cnv: document.querySelector('canvas')
     }
     
     this.init() 
@@ -29,38 +29,40 @@ class Slider {
   }
   
   place() {
-    let index = 0
-    this.DOM.fragment.forEach((elem, index) => {
-      let sx = rand(0, 15)
-      let sy = rand(0, 9)
-      ex[index] = sx * base
-      ey[index] = sy * base
-      let width = rand(1, 15)
-      let height = rand(1, 9)
-      if ((width + sx) > 16 ) width = 16 - sx
-      if ((height + sy) > 10 ) height = 10 - sy
-      let ssx = (sx > 7 ) ? (sx * base) + rand(0, 30) : (sx * base) + rand(-30, 0)
-      let ssy = (sy > 4 ) ? (sy * base) + rand(0, 30) : (sy * base) + rand(-30, 0)
+    let sx, sy, width, height = 0
+    
+    this.DOM.fragment.forEach((elem, i) => {
+      do {
+        sx = rand(0, 16)
+        sy = rand(0, 10)
+        width = rand(1, 16)
+        height = rand(1, 10)
+      } while (((width + sx) > 16 ) || ((height + sy) > 10 ))
+
+      ex[i] = sx * base
+      ey[i] = sy * base
+      let ssx = (sx > 7 ) ? ex[i] + rand(0, offset) : ex[i] - rand(0, offset)
+      let ssy = (sy > 4 ) ? ey[i] + rand(0, offset) : ey[i] - rand(0, offset)
       elem.style.top = `${ssy}px`
       elem.style.left = `${ssx}px`
-      this.slice(this.DOM.donor[1], sx, sy, width, height, elem)
-//      console.log('data', index, sx*base, ssx, sy*base, ssy, width*base, height*base)
+      this.slice(this.DOM.donor[0], sx, sy, width, height, elem)
     })  
   }
   
   slice(source, sx, sy, width, height, target) {
-    let cnv = this.DOM.cnv
+    let cnv = target
     cnv.height = base * height
     cnv.width = base * width
     let ctx = cnv.getContext('2d')
-    ctx.drawImage(source, sx * base, sy * base, cnv.width, cnv.height, 0, 0, cnv.width, cnv.height);
-    target.src = cnv.toDataURL()
+    try {
+      ctx.drawImage(source, sx * base, sy * base, cnv.width, cnv.height, 0, 0, cnv.width, cnv.height)
+    } catch (e) {
+      console.log(e, source)
+    }
   }
   
-  
   init() {
-//    console.log('fragment', this.DOM.parent, this.DOM.fragment, this.DOM.donor, this.DOM.cnv)
-    this.slice(this.DOM.donor[1], 0, 0, 16, 10, this.DOM.parent)
+    this.slice(this.DOM.donor[0], 0, 0, 16, 10, this.DOM.parent)
     this.place()
     this.move()
   }

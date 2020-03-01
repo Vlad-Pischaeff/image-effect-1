@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-.donor, canvas {
+.donor {
   display: none;
   position: absolute;
   top: 5vh;
@@ -13,10 +13,10 @@
 }
 .container {
   width: 80vw;
-  height: 60vw;
-/*  background: #eeee99;*/
+  height: 80vh;
+  background: #eeee99;
   position: relative;
-  margin: 2vw auto;
+  margin: 5vh auto;
 }
 .parent {
   max-width: 1024px;
