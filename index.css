@@ -11,16 +11,24 @@
   left: 5vw;
   right: 5vw;
 }
+.wrap {
+  width: 95vw;
+  height: 800px;
+  top: 0;
+  position: relative;
+/*  background: rgba(200, 200, 200, 0.5);*/
+  overflow: hidden;
+}
 .container {
-  width: 80vw;
+  width: 1024px;
   height: 640px;
-  background: #eeee99;
+/*  background: #eeee99;*/
   position: relative;
   margin: 5vh auto;
 }
 .parent {
   max-width: 1024px;
-  background: #dd88ff;
+/*  background: #dd88ff;*/
   position: absolute;
 }
 .fragment {
@@ -30,6 +38,8 @@
 button {
   width: 10rem;
   height: 8vh;
+  position: absolute;
+  bottom: 0;
   margin: 0 0 0 45vw;
   font-size: 2rem;
   color: white;
