@@ -3,32 +3,27 @@
   padding: 0;
   box-sizing: border-box;
 }
-.donor {
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+section {
   display: none;
-  position: absolute;
-  top: 5vh;
-  bottom: 5vh;
-  left: 5vw;
-  right: 5vw;
 }
 .wrap {
-  width: 95vw;
-  height: 800px;
-  top: 0;
-  position: relative;
-/*  background: rgba(200, 200, 200, 0.5);*/
-  overflow: hidden;
+  width: 90vw;
+  height: 60vw;
+  overflow: hidden;  
+  margin: 2vh auto;
 }
 .container {
-  width: 1024px;
-  height: 640px;
-/*  background: #eeee99;*/
+  width: 80vw;
+  height: 50.5vw;
   position: relative;
   margin: 5vh auto;
 }
 .parent {
-  max-width: 1024px;
-/*  background: #dd88ff;*/
   position: absolute;
 }
 .fragment {
@@ -37,10 +32,8 @@
 }
 button {
   width: 10rem;
-  height: 8vh;
-  position: absolute;
-  bottom: 0;
-  margin: 0 0 0 45vw;
+  height: 4rem;
+  margin: 0 auto;
   font-size: 2rem;
   color: white;
   background: #111;

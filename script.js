@@ -2,7 +2,6 @@ function rand(from, to) {
   return ~~(Math.random() * (to - from) + from)
 }
 
-const base = 64
 const offset = 30
 const ex = []
 const ey = []
@@ -16,15 +15,22 @@ class Slider {
       donor: document.querySelectorAll('.donor'),
       parent: document.querySelector('.parent'),
       button: document.querySelector('button'),
+      container: document.querySelector('.container'),
     }
     
     this.index = 0
+    this.base = 64
     this.init() 
   }
 
   bindMethods() {
-    ['next']
+    ['next', 'resize']
     .forEach((fn) => this[fn] = this[fn].bind(this));
+  }
+  
+  resize() {
+    this.base = ~~(this.DOM.container.clientHeight / 10)
+    this.showParent()
   }
   
   move() {
@@ -39,7 +45,8 @@ class Slider {
   
   place() {
     let sx, sy, width, height = 0
-
+    let base = this.base
+    
     this.DOM.fragment.forEach((elem, i) => {
       do {
         sx = rand(0, 16)
@@ -60,12 +67,13 @@ class Slider {
   }
   
   slice(source, sx, sy, width, height, target) {
+    let base = this.base
     let cnv = target
     cnv.height = base * height
     cnv.width = base * width
     let ctx = cnv.getContext('2d')
     try {
-      ctx.drawImage(source, sx * base, sy * base, cnv.width, cnv.height, 0, 0, cnv.width, cnv.height)
+      ctx.drawImage(source, sx * 64, sy * 64, width * 64, height * 64, 0, 0, cnv.width, cnv.height)
     } catch (e) {
       console.log(e, source)
     }
@@ -77,14 +85,19 @@ class Slider {
     } else {
       this.index++
     }
-    this.slice(this.DOM.donor[this.index], 0, 0, 16, 10, this.DOM.parent)
+    this.showParent()
     this.place()
     this.move()
   }
   
+  showParent() {
+    this.slice(this.DOM.donor[this.index], 0, 0, 16, 10, this.DOM.parent)
+  }
+  
   init() {
     this.DOM.button.addEventListener("click", this.next)
-    this.slice(this.DOM.donor[this.index], 0, 0, 16, 10, this.DOM.parent)
+    window.addEventListener("resize", this.resize)
+    this.resize()
     this.place()
     this.move()
   }
